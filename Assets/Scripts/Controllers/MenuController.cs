@@ -13,6 +13,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private CanvasGroup[] canvasGroup;
 
+    [SerializeField]
+    private SoundController soundController;
+
     private int actualIndex = 0;
 
     [Header("Nina")]
@@ -48,6 +51,7 @@ public class MenuController : MonoBehaviour
 
     public void CanvasController(int index)
     {
+        soundController.PlayClickMouse();
         panels[actualIndex].SetActive(false);
         actualIndex = index;
         panels[actualIndex].SetActive(true);
@@ -55,6 +59,7 @@ public class MenuController : MonoBehaviour
 
     public void InitGame()
     {
+        soundController.PlayClickMouse();
         panels[actualIndex].SetActive(false);
         ChangeCanvasGroup(0, false);
         ChangeCanvasGroup(1, true);
@@ -97,6 +102,7 @@ public class MenuController : MonoBehaviour
 
     public void InitNinaDesktop()
     {
+        soundController.PlayClickMouse();
         ChangeCanvasGroup(1, false);
         canvasGroup[2].alpha = 1;
         canvasGroup[2].blocksRaycasts = true;
@@ -138,23 +144,27 @@ public class MenuController : MonoBehaviour
 
     public void OpenPopupToEnableButtonPlay()
     {
+        soundController.PlayClickMouse();
         popupToEnableButtonPlay.SetActive(true);
     }
 
     public void EnableButtonPlay()
     {
+        soundController.PlayClickMouse();
         popupToEnableButtonPlay.SetActive(false);
         buttonPlay.SetActive(true);
     }
 
     public void PlayGame()
     {
+        soundController.PlayClickMouse();
         ChangeCanvasGroup(2, false);
         SceneManager.LoadScene("Game");
     }
 
     public void OnClickChromera()
     {
+        soundController.PlayClickMouse();
         ninaObject.SetActive(true);
         ninaText.text = ninaWithChromera[0];
         canvasGroup[2].interactable = false;
@@ -179,6 +189,7 @@ public class MenuController : MonoBehaviour
 
     public void OnClickBoarderX()
     {
+        soundController.PlayClickMouse();
         ninaObject.SetActive(true);
         ninaText.text = ninaWithBoarderX[0];
         canvasGroup[2].interactable = false;
@@ -203,6 +214,7 @@ public class MenuController : MonoBehaviour
 
     public void OnClickTheRingOfLegends()
     {
+        soundController.PlayClickMouse();
         ninaObject.SetActive(true);
         ninaText.text = ninaWithTheRingOfLegends[0];
         canvasGroup[2].interactable = false;
@@ -227,6 +239,7 @@ public class MenuController : MonoBehaviour
 
     public void OnClickTrash()
     {
+        soundController.PlayClickMouse();
         ninaObject.SetActive(true);
         ninaText.text = ninaWithTrash[0];
         canvasGroup[2].interactable = false;
@@ -256,6 +269,7 @@ public class MenuController : MonoBehaviour
 
     public void ExitGame()
     {
+        soundController.PlayClickMouse();
         panels[actualIndex].SetActive(false);
         ChangeCanvasGroup(0, false);
         ChangeCanvasGroup(3, true);
@@ -263,9 +277,15 @@ public class MenuController : MonoBehaviour
 
     public void BackToCredits()
     {
+        soundController.PlayClickMouse();
         ChangeCanvasGroup(3, false);
         ChangeCanvasGroup(0, true);
         actualIndex = 2;
         panels[actualIndex].SetActive(true);
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        soundController = FindObjectOfType<SoundController>();
     }
 }
