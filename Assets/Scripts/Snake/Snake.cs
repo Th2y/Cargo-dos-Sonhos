@@ -14,7 +14,15 @@ public class Snake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Controles do jogo
+        if(Input.GetKey(KeyCode.RightArrow))
+            dir = Vector2.right;
+        else if(Input.GetKey(KeyCode.LeftArrow))
+            dir = -Vector2.right;
+        else if(Input.GetKey(KeyCode.UpArrow))
+            dir = Vector2.up;
+        else if(Input.GetKey(KeyCode.DownArrow))
+            dir = -Vector2.up;
     }
 
     void Move()
