@@ -253,4 +253,19 @@ public class MenuController : MonoBehaviour
             canvasGroup[2].interactable = true;
         }
     }
+
+    public void ExitGame()
+    {
+        panels[actualIndex].SetActive(false);
+        ChangeCanvasGroup(0, false);
+        ChangeCanvasGroup(3, true);
+    }
+
+    public void BackToCredits()
+    {
+        ChangeCanvasGroup(3, false);
+        ChangeCanvasGroup(0, true);
+        actualIndex = 2;
+        panels[actualIndex].SetActive(true);
+    }
 }
