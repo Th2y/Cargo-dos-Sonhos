@@ -9,6 +9,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private GameObject[] panels;
 
+    [SerializeField]
+    private CanvasGroup canvasGroup;
+
     private int actualIndex = 0;
 
     private void Awake()
@@ -27,11 +30,8 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
         panels[actualIndex].SetActive(false);
-    }
-
-    public void ReinitGame()
-    {
-        SceneManager.LoadScene("Game");
-        panels[actualIndex].SetActive(false);
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.alpha = 0;
     }
 }
