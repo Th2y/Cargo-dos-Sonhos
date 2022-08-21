@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 771164254525245098}
   - component: {fileID: 771164254525245097}
   - component: {fileID: 771164254525245096}
+  - component: {fileID: 8288314366599480374}
   m_Layer: 0
   m_Name: HeadSnake
   m_TagString: Untagged
@@ -133,3 +134,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8288314366599480374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771164254525245094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cff04cddeb3fc4294f46f410c5eb27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
