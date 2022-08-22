@@ -16,9 +16,14 @@ public class Snake : MonoBehaviour
     // Tail
     List<Transform> tail = new List<Transform>();
 
+    // Game Over
+    public GameObject pnMenuGameOver;
+
     void Start()
     {
         InvokeRepeating("Move", 0.3f, 0.3f);
+        //No start
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -66,9 +71,17 @@ public class Snake : MonoBehaviour
             // Destroi a food
             Destroy(coll.gameObject);
         }
+        else if (coll.gameObject.CompareTag("Wall"))
+        {   // Dead
+            Debug.Log("Morreu!!!");
+            pnMenuGameOver.SetActive(true);
+            //No fim
+            Time.timeScale = 0;
+        }
         else
         {   //Fim de jogo
             Debug.Log("Morreu!!!");
+
         }
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 98704113479814487}
   - component: {fileID: 98704113479814480}
   m_Layer: 0
-  m_Name: TailSnake
+  m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
