@@ -19,11 +19,16 @@ public class Snake : MonoBehaviour
     // Game Over
     public GameObject pnMenuGameOver;
 
+    private SoundController soundController;
+
     void Start()
     {
         InvokeRepeating("Move", 0.3f, 0.3f);
         //No start
         Time.timeScale = 1;
+
+        soundController = FindObjectOfType<SoundController>();
+        soundController.PlayTerrorMusic();
     }
 
     // Update is called once per frame
@@ -68,20 +73,21 @@ public class Snake : MonoBehaviour
         if (coll.name.StartsWith("Food"))
         {   // Comeu a food
             ate = true;
+            soundController.PlayCollecting();
             // Destroi a food
             Destroy(coll.gameObject);
         }
         else if (coll.gameObject.CompareTag("Wall"))
         {   // Dead
-            Debug.Log("Morreu!!!");
+            soundController.PlayLose();
             pnMenuGameOver.SetActive(true);
             //No fim
             Time.timeScale = 0;
         }
-        else
-        {   //Fim de jogo
-            Debug.Log("Morreu!!!");
+    }
 
-        }
+    public void OnClickExitGame()
+    {
+        Application.Quit();
     }
 }
