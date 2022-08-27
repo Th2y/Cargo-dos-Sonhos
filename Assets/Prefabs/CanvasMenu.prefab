@@ -8110,6 +8110,7 @@ MonoBehaviour:
   virusAlert: {fileID: 412388626229336532}
   buttonPlay: {fileID: 707934101409652149}
   popupToEnableButtonPlay: {fileID: 1576302502062470356}
+  _fadeSpeed: 2
 --- !u!114 &3277071677240526086
 MonoBehaviour:
   m_ObjectHideFlags: 0

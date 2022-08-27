@@ -44,6 +44,13 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private GameObject popupToEnableButtonPlay;
 
+    [Header("Fade")]
+    [SerializeField]
+    private float _fadeSpeed = 2f;
+    private CanvasGroup _fadeGroup;
+    private float _currentFadeValue;
+    private bool _inFade;
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -61,21 +68,38 @@ public class MenuController : MonoBehaviour
     {
         soundController.PlayClickMouse();
         panels[actualIndex].SetActive(false);
-        ChangeCanvasGroup(0, false);
-        ChangeCanvasGroup(1, true);
+        ChangeCanvasGroup(0, false, false, true);
+        StartCoroutine(InitGameC());
+    }
+    private IEnumerator InitGameC()
+    {
+        yield return new WaitForSeconds(1f);
+        ChangeCanvasGroup(1, true, false, false);
     }
 
-    private void ChangeCanvasGroup(int i, bool active, bool interactableChange = false)
+    private void ChangeCanvasGroup(int i, bool active, bool fadeIn, bool fadeOut, bool interactableChange = false)
     {
-        canvasGroup[i].alpha = active ? 1 : 0;
-        canvasGroup[i].blocksRaycasts = active;
-        if (interactableChange)
+        if (fadeIn)
         {
-            canvasGroup[i].interactable = active;
+            InitFade(canvasGroup[i], true);
+        }
+        else if (fadeOut)
+        {
+            InitFade(canvasGroup[i], false);
         }
         else
         {
-            StartCoroutine(ChangeCanvasGroupInteractable(i, active));
+            canvasGroup[i].alpha = active ? 1 : 0;
+            canvasGroup[i].blocksRaycasts = active;
+
+            if (interactableChange)
+            {
+                canvasGroup[i].interactable = active;
+            }
+            else
+            {
+                StartCoroutine(ChangeCanvasGroupInteractable(i, active));
+            }
         }
     }
 
@@ -103,7 +127,12 @@ public class MenuController : MonoBehaviour
     public void InitNinaDesktop()
     {
         soundController.PlayClickMouse();
-        ChangeCanvasGroup(1, false);
+        ChangeCanvasGroup(1, false, false, true);
+        StartCoroutine(InitNinaDesktopC());
+    }
+    private IEnumerator InitNinaDesktopC()
+    {
+        yield return new WaitForSeconds(1f);
         canvasGroup[2].alpha = 1;
         canvasGroup[2].blocksRaycasts = true;
         ChangeNinaSpeak();
@@ -158,7 +187,12 @@ public class MenuController : MonoBehaviour
     public void PlayGame()
     {
         soundController.PlayClickMouse();
-        ChangeCanvasGroup(2, false);
+        ChangeCanvasGroup(2, false, false, true);
+        StartCoroutine(PlayGameC());
+    }
+    private IEnumerator PlayGameC()
+    {
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Game");
     }
 
@@ -271,15 +305,25 @@ public class MenuController : MonoBehaviour
     {
         soundController.PlayClickMouse();
         panels[actualIndex].SetActive(false);
-        ChangeCanvasGroup(0, false);
-        ChangeCanvasGroup(3, true);
+        ChangeCanvasGroup(0, false, false, true);
+        StartCoroutine(ExitGameC());
+    }
+    private IEnumerator ExitGameC()
+    {
+        yield return new WaitForSeconds(1f);
+        ChangeCanvasGroup(3, true, false, false);
     }
 
     public void BackToCredits()
     {
         soundController.PlayClickMouse();
-        ChangeCanvasGroup(3, false);
-        ChangeCanvasGroup(0, true);
+        ChangeCanvasGroup(3, false, false, true);
+        StartCoroutine(BackToCreditsC());
+    }
+    private IEnumerator BackToCreditsC()
+    {
+        yield return new WaitForSeconds(1f);
+        ChangeCanvasGroup(0, true, false, false);
         actualIndex = 2;
         panels[actualIndex].SetActive(true);
     }
@@ -288,4 +332,41 @@ public class MenuController : MonoBehaviour
     {
         soundController = FindObjectOfType<SoundController>();
     }
+
+    #region Fade
+    private void InitFade(CanvasGroup group, bool fadeIn)
+    {
+        _fadeGroup = group;
+        if (fadeIn) StartCoroutine(Fade(1f));
+        else if (!fadeIn) StartCoroutine(Fade(0f));
+    }
+
+    IEnumerator Fade(float targetValue)
+    {
+        _fadeGroup.interactable = false;
+        _fadeGroup.blocksRaycasts = true;
+
+        _inFade = false;
+        yield return new WaitForEndOfFrame();
+        _inFade = true;
+        _currentFadeValue = _fadeGroup.alpha;
+
+        while ((targetValue == 1 ? _currentFadeValue < 1 : _currentFadeValue > 0) && _inFade)
+        {
+            yield return null;
+            _currentFadeValue = (targetValue == 1) ? _currentFadeValue + Time.unscaledDeltaTime * _fadeSpeed : _currentFadeValue - Time.unscaledDeltaTime * _fadeSpeed;
+            _fadeGroup.alpha = _currentFadeValue;
+        }
+        if (targetValue == 1)
+        {
+            _fadeGroup.interactable = true;
+            _fadeGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            _fadeGroup.interactable = false;
+            _fadeGroup.blocksRaycasts = false;
+        }
+    }
+    #endregion
 }
